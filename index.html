@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+        <title>Analogue Clock | HTML5 And CSS3</title>
+        
+    </head>
+    
+    <body>
+        
+        <canvas id="clock" width="500" height="500">
+            
+            Please upgrade your browser.
+            
+        </canvas>
+        
+        
+        <script type="text/javascript">
+            
+            function setTime() {
+        
+            var canvas = document.getElementById("clock");
+            var context = canvas.getContext("2d"); // Using 2D view
+            var clockRadius = canvas.width/2;
+            
+            context.beginPath();
+                
+            context.fillStyle = "black";
+            context.arc(clockRadius, clockRadius, clockRadius, 0, 2*Math.PI); // Defining the Sphere of the clock
+            context.fill();
+            
+            context.fillStyle = "white"; 
+            
+            context.beginPath();
+            context.arc(clockRadius, clockRadius, 10, 0, 2*Math.PI);
+            context.fill();
+            
+            context.font = clockRadius / 10 + "px arial";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+                        
+                // From 1 - 12 on the clock
+            for (var i = 1; i <= 12; i++) {
+                
+                context.fillText(i, clockRadius + clockRadius * 0.9 * Math.sin(i * 2*Math.PI /12), clockRadius - (clockRadius * 0.9 *Math.cos(i * 2 * Math.PI / 12)));
+                
+            }
+            
+                // Get current time from the device
+            var hours = new Date().getHours();
+            var minutes = new Date().getMinutes();
+            var seconds = new Date().getSeconds();
+            
+                // Total time in seconds
+            var fullHours = hours % 12 + minutes / 60 + seconds / 3600;
+            
+            var hoursAngle = fullHours * 2 * Math.PI / 12; // The hour hand
+            var minutesAngle = minutes * 2 * Math.PI / 60; // The minutes hand
+            var secondsAngle = seconds * 2 * Math.PI / 60; //The seconds hand
+            
+                // Hour hand revolution
+            context.strokeStyle = "white";
+            context.moveTo(clockRadius, clockRadius);
+            context.lineTo(clockRadius + clockRadius * 0.6 * Math.sin(hoursAngle), clockRadius - (clockRadius * 0.6 *Math.cos(hoursAngle)));
+            context.lineWidth = 5;            
+            context.stroke();
+            
+                // Minutes hand revolution
+            context.moveTo(clockRadius, clockRadius);
+            context.lineTo(clockRadius + clockRadius * 0.8 * Math.sin(minutesAngle), clockRadius - (clockRadius * 0.8 *Math.cos(minutesAngle)));
+            context.lineWidth = 3;            
+            context.stroke();
+            
+                // Seconds hand revolution
+            context.moveTo(clockRadius, clockRadius);
+            context.lineTo(clockRadius + clockRadius * 0.9 * Math.sin(secondsAngle), clockRadius - (clockRadius * 0.9 *Math.cos(secondsAngle)));
+            context.lineWidth = 2;            
+            context.stroke();
+            
+            }
+            
+            // seconds count
+            setInterval(setTime, 1000);
+                
+        </script>
+          
+    </body>
+    
+</html>
